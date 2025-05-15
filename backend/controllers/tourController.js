@@ -34,11 +34,39 @@ const createTour = async (req, res) => {
 }
 
 //delete a tour
+const deleteTour = async (req, res) => {
+    const {id} = req.params
+    //check if id is valid
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such tour'})
+    }
+    const tour = await Tour.findOneAndDelete({_id: id})
+    if(!tour){
+        return res.status(404).json({error: 'No such tour'})
+    }
+    res.status(200).json(tour)
+}
 
 //update a tour
+const updateTour = async (req, res) => {
+    const {id} = req.params
+    //check if id is valid
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: 'No such tour'})
+    }
+    const tour = await Tour.findOneAndUpdate({_id: id}, {
+        ...req.body
+    })
+    if(!tour){
+        return res.status(404).json({error: 'No such tour'})
+    }
+    res.status(200).json(tour)
+}
 
 module.exports = {
     getTours,
     getTour,
-    createTour
+    createTour,
+    deleteTour,
+    updateTour
 }

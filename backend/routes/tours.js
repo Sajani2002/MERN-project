@@ -2,7 +2,9 @@ const express = require('express')
 const {
     createTour,
     getTours,
-    getTour
+    getTour,
+    deleteTour,
+    updateTour
 } = require('../controllers/tourController')
 
 const router = express.Router()
@@ -17,13 +19,9 @@ router.get('/:id', getTour)
 router.post('/', createTour)
 
 //delete a tour
-router.delete('/:id', (req,res) => {
-    res.json({msg: 'delete a tour'})
-})
+router.delete('/:id', deleteTour)
 
 //update a tour
-router.patch('/:id', (req,res) => {
-    res.json({msg: 'update a tour'})
-})
+router.patch('/:id', updateTour)
 
 module.exports = router
