@@ -1,4 +1,5 @@
 const express = require('express')
+const Tour = require('../models/tourModel')
 
 const router = express.Router()
 
@@ -13,8 +14,14 @@ router.get('/:id', (req,res) => {
 })
 
 //post a new tour
-router.post('/', (req,res) => {
-    res.json({msg: 'post a new tour'})
+router.post('/', async (req,res) => {
+    const {title, location, description, price, duration} = req.body
+    try{
+        const tour = await Tour.create({title, location, description, price, duration})
+        res.status(200).json(tour)
+    }catch (error) {
+        res.status(400).json({error: error.message})
+    }
 })
 
 //delete a tour
