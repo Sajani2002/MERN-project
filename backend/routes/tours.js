@@ -1,28 +1,20 @@
 const express = require('express')
-const Tour = require('../models/tourModel')
+const {
+    createTour,
+    getTours,
+    getTour
+} = require('../controllers/tourController')
 
 const router = express.Router()
 
 //get all tours
-router.get('/', (req,res) => {
-    res.json({msg: 'Get all tours'})
-})
+router.get('/', getTours)
 
 //get a single tour
-router.get('/:id', (req,res) => {
-    res.json({msg: 'Get a single workout'})
-})
+router.get('/:id', getTour)
 
 //post a new tour
-router.post('/', async (req,res) => {
-    const {title, location, description, price, duration} = req.body
-    try{
-        const tour = await Tour.create({title, location, description, price, duration})
-        res.status(200).json(tour)
-    }catch (error) {
-        res.status(400).json({error: error.message})
-    }
-})
+router.post('/', createTour)
 
 //delete a tour
 router.delete('/:id', (req,res) => {
